@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+         #
+#    By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/22 16:13:19 by hadia             #+#    #+#              #
-#    Updated: 2025/04/22 16:13:33 by hadia            ###   ########.fr        #
+#    Updated: 2025/04/27 16:40:25 by Hadia            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iinclude
-SRC = src/*.c
+SRC = src/main.c src/routine.c src/utils.c
 
 HEADER = include/philo.h
 
