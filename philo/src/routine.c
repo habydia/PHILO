@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 21:35:58 by hvby              #+#    #+#             */
-/*   Updated: 2025/04/29 16:04:11 by hadia            ###   ########.fr       */
+/*   Updated: 2025/04/29 16:23:58 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,12 @@ void *routine(void *arg)
     
     philo = (t_philo *)arg;
     philo->room->start_time = get_time_ms();
-    philo->alive = true;
     
     // If odd numbered philo, wait a bit to avoid deadlock
     if (philo->id % 2 != 0)
         usleep(1000);
     
-    while (philo->alive)
+    while (philo->alive == true)
     {
         think(philo);
         eat(philo);
@@ -74,7 +73,6 @@ void *routine(void *arg)
         {
             print_status(philo, "\033[0;31mdied\033[0m");
             philo->alive = false;
-            break;
         }
     }
     
