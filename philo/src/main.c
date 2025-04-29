@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:14 by hadia             #+#    #+#             */
-/*   Updated: 2025/04/27 17:14:58 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/04/29 16:16:43 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,20 @@ static void init_logic(t_room *room, t_philo *philos)
 	 {
 		 philos[i].id = i + 1;
 		 philos[i].room = room;
+		 philos[i].alive = true;
 		 pthread_create(&philos[i].thread, NULL, &routine, &philos[i]);
+		 if(philos[i].alive == true)
+		 	pthread_join(philos[i].thread, NULL);
 		 i++;
 	 }
 	 
 	 // Keep main thread waiting for philosopher threads
-	 i = 0;
-	 while (i < room->number_of_philosopers)
-	 {
-		 pthread_join(philos[i].thread, NULL);
-		 i++;
-	 }
+	//  i = 0;
+	//  while (i < room->number_of_philosopers && philos[i].alive == true)
+	//  {
+	// 	 pthread_join(philos[i].thread, NULL);
+	// 	 i++;
+	//  }
 	 
 }
 

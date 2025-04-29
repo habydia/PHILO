@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 15:13:06 by Hadia             #+#    #+#             */
-/*   Updated: 2025/04/27 17:05:22 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/04/29 15:43:37 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,5 @@ void	print_status(t_philo *philo, char *status)
     long	time;
     
     time = get_time_ms() - philo->room->start_time;
-    printf("%ld %d %s\n", time, philo->id, status);
+    printf("\033[0;36m%ld\033[0m \033[37;1m%d\033[0m %s\n", time, philo->id, status);
 }

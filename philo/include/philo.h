@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:58 by hadia             #+#    #+#             */
-/*   Updated: 2025/04/27 17:24:11 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/04/29 15:55:13 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_philo
     time_t last_meal_time;
     unsigned int meals_eaten;
     t_room *room;
+    enum {false, true} alive;
 }   t_philo;
 
 

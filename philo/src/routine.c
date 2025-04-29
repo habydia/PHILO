@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 21:35:58 by hvby              #+#    #+#             */
-/*   Updated: 2025/04/27 17:21:28 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/04/29 16:04:11 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	sleeping(t_philo *philo)
 
 void	think(t_philo *philo)
 {
-    print_status(philo, "is thinking");
+    print_status(philo, "\033[0;35mis thinking\033[0m");
 }
 
 void	eat(t_philo *philo)
@@ -35,43 +35,47 @@ void	eat(t_philo *philo)
     
     // Take forks (lock mutexes)
     pthread_mutex_lock(&philo->room->forks[left_fork]);
-    print_status(philo, "has taken a fork");
+    print_status(philo, "\033[0;33mhas taken a fork\033[0m");
     pthread_mutex_lock(&philo->room->forks[right_fork]);
-    print_status(philo, "has taken a fork");
+    print_status(philo, "\033[0;33mhas taken a fork\033[0m");
     
     // Eat
-    print_status(philo, "is eating");
+    print_status(philo, "\e[1;34mis eating\e[0m");
     philo->last_meal_time = get_time_ms();
     usleep(philo->room->time_to_eat * 1000);
     philo->meals_eaten++;
-    
     // Release forks (unlock mutexes)
     pthread_mutex_unlock(&philo->room->forks[left_fork]);
     pthread_mutex_unlock(&philo->room->forks[right_fork]);
+    print_status(philo, "\033[0;32mput the forks down\033[0m");
+    print_status(philo, "\033[0;32mput the forks down\033[0m");
 }
 
 void *routine(void *arg)
 {
 
     t_philo *philo;
-    int alive;
     
     philo = (t_philo *)arg;
     philo->room->start_time = get_time_ms();
-    alive = 1;
+    philo->alive = true;
     
     // If odd numbered philo, wait a bit to avoid deadlock
     if (philo->id % 2 != 0)
         usleep(1000);
     
-    while (alive)
+    while (philo->alive)
     {
         think(philo);
         eat(philo);
         sleeping(philo);
-        
-        // Check if simulation should continue
-        // This will need to be implemented with proper death checking
+
+        if(philo->last_meal_time >= philo->room->time_to_die)
+        {
+            print_status(philo, "\033[0;31mdied\033[0m");
+            philo->alive = false;
+            break;
+        }
     }
     
     return NULL;
