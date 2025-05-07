@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 21:35:58 by hvby              #+#    #+#             */
-/*   Updated: 2025/04/29 16:23:58 by hadia            ###   ########.fr       */
+/*   Updated: 2025/05/07 18:38:22 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,28 +53,37 @@ void	eat(t_philo *philo)
 
 void *routine(void *arg)
 {
+    t_philo *philo = (t_philo *)arg;
 
-    t_philo *philo;
-    
-    philo = (t_philo *)arg;
-    philo->room->start_time = get_time_ms();
-    
-    // If odd numbered philo, wait a bit to avoid deadlock
     if (philo->id % 2 != 0)
         usleep(1000);
-    
-    while (philo->alive == true)
+
+    while (1)
     {
+        // Vérifier si quelqu'un est mort
+        pthread_mutex_lock(&philo->room->death_mutex);
+        if (philo->room->philo_dead)
+        {
+            pthread_mutex_unlock(&philo->room->death_mutex);
+            break;
+        }
+        pthread_mutex_unlock(&philo->room->death_mutex);
+
         think(philo);
         eat(philo);
         sleeping(philo);
 
-        if(philo->last_meal_time >= philo->room->time_to_die)
+        if (philo->last_meal_time >= philo->room->time_to_die)
         {
-            print_status(philo, "\033[0;31mdied\033[0m");
-            philo->alive = false;
+            pthread_mutex_lock(&philo->room->death_mutex);
+            if (!philo->room->philo_dead)
+            {
+                print_status(philo, "\033[0;31mdied\033[0m");
+                philo->room->philo_dead = 1;
+            }
+            pthread_mutex_unlock(&philo->room->death_mutex);
+            break;
         }
     }
-    
     return NULL;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:58 by hadia             #+#    #+#             */
-/*   Updated: 2025/04/29 15:55:13 by hadia            ###   ########.fr       */
+/*   Updated: 2025/05/07 18:24:18 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ typedef struct s_room
 {
     unsigned int number_of_philosopers; //number of fork
     pthread_mutex_t *forks;
+    pthread_mutex_t death_mutex;
+    int philo_dead;
     time_t time_to_die;
     time_t time_to_eat;
     time_t time_to_sleep;

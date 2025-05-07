@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:14 by hadia             #+#    #+#             */
-/*   Updated: 2025/04/29 16:25:03 by hadia            ###   ########.fr       */
+/*   Updated: 2025/05/07 18:34:45 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static void init_logic(t_room *room, t_philo *philos)
 {
 	unsigned int i;
 	unsigned int j;
+
+	pthread_mutex_init(&room->death_mutex, NULL);
 	 // Initialize mutexes
 	 j = 0;
 	 while (j < room->number_of_philosopers)
@@ -38,6 +40,7 @@ static void init_logic(t_room *room, t_philo *philos)
 	 while (i < room->number_of_philosopers)
 	 {
 		 philos[i].id = i + 1;
+		 philos[i].last_meal_time = room->start_time;
 		 philos[i].room = room;
 		 philos[i].alive = true;
 		 pthread_create(&philos[i].thread, NULL, &routine, &philos[i]);
@@ -46,7 +49,7 @@ static void init_logic(t_room *room, t_philo *philos)
 	 
 	 // Keep main thread waiting for philosopher threads
 	 i = 0;
-	 while (i < room->number_of_philosopers && (philos[i].alive == true))
+	 while (i < room->number_of_philosopers)
 	 {
 		 pthread_join(philos[i].thread, NULL);
 		 i++;
@@ -56,8 +59,7 @@ static void init_logic(t_room *room, t_philo *philos)
 
 static void init_room(t_room *room)
 {
-    t_philo *philos;
-
+    t_philo *philos; 
     // Allocate memory for philosophers
     philos = malloc(sizeof(t_philo) * room->number_of_philosopers);
     if (!philos)
@@ -76,7 +78,7 @@ static void init_room(t_room *room)
         exit(1);
     }
 	room->start_time = get_time_ms();
-
+	room->philo_dead = 0;
 	init_logic(room, philos);
 	free(philos);
 
@@ -87,7 +89,7 @@ static void init_room(t_room *room)
         pthread_mutex_destroy(&room->forks[j]);
         j++;
     }
-    
+    pthread_mutex_destroy(&room->death_mutex);
 	free(room->forks);
 }
 
