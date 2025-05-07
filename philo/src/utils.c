@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 15:13:06 by Hadia             #+#    #+#             */
-/*   Updated: 2025/04/29 15:43:37 by hadia            ###   ########.fr       */
+/*   Updated: 2025/05/07 18:39:32 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,19 @@ void	print_status(t_philo *philo, char *status)
     
     time = get_time_ms() - philo->room->start_time;
     printf("\033[0;36m%ld\033[0m \033[37;1m%d\033[0m %s\n", time, philo->id, status);
+}
+int check_death(t_philo *philo)
+{
+    if ((get_time_ms() - philo->last_meal_time) >= philo->room->time_to_die)
+    {
+        pthread_mutex_lock(&philo->room->death_mutex);
+        if (!philo->room->philo_dead)
+        {
+            print_status(philo, "\033[0;31mdied\033[0m");
+            philo->room->philo_dead = 1;
+        }
+        pthread_mutex_unlock(&philo->room->death_mutex);
+        return (1);
+    }
+    return (0);
 }
