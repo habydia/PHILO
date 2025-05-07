@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:58 by hadia             #+#    #+#             */
-/*   Updated: 2025/05/07 18:24:18 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/05/07 23:36:39 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_philo
     pthread_t thread;
     unsigned int id;
     time_t last_meal_time;
+    time_t time_spent_eating;
     unsigned int meals_eaten;
     t_room *room;
     enum {false, true} alive;
@@ -48,7 +49,7 @@ time_t get_time_ms(void);
 unsigned int ft_atoi(const char *nptr);
 void	print_status(t_philo *philo, char *status);
 void	think(t_philo *philo);
-
+int check_death(t_philo *philo);
 //routine
 void	sleeping(t_philo *philo);
 void	think(t_philo *philo);

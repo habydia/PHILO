@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 15:13:06 by Hadia             #+#    #+#             */
-/*   Updated: 2025/05/07 18:39:32 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/05/07 20:42:20 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	print_status(t_philo *philo, char *status)
 }
 int check_death(t_philo *philo)
 {
-    if ((get_time_ms() - philo->last_meal_time) >= philo->room->time_to_die)
+    if ( philo->last_meal_time >= philo->room->time_to_die)
     {
         pthread_mutex_lock(&philo->room->death_mutex);
         if (!philo->room->philo_dead)
