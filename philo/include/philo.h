@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:58 by hadia             #+#    #+#             */
-/*   Updated: 2025/05/09 14:19:39 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/05/13 10:43:50 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@
 // data partagé
 typedef struct s_room
 {
-	unsigned int    number_of_philosopers; // number of fork
-	pthread_mutex_t *forks;
-	pthread_mutex_t death_mutex;
+	unsigned int	number_of_philosopers;
 	int				philo_dead;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	death_mutex;
 	time_t			time_to_die;
 	time_t			time_to_eat;
 	time_t			time_to_sleep;
@@ -46,19 +46,16 @@ typedef struct s_philo
 	t_room			*room;
 }					t_philo;
 
-// utils
 time_t				get_time_ms(void);
 unsigned int		ft_atoi(const char *nptr);
 void				print_status(t_philo *philo, char *status);
 void				think(t_philo *philo);
 int					check_death(t_philo *philo);
 
-// init
 void				init_room(t_room *room, char **argv);
 void				init_logic(t_room *room, t_philo *philos);
 void				simulation(t_room *room);
 
-// routine
 void				sleeping(t_philo *philo);
 void				think(t_philo *philo);
 void				eat(t_philo *philo);
